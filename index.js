@@ -19,12 +19,36 @@ const __dirname = path.dirname(__filename);
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use(express.json());
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", // your frontend Vite URL
+//     credentials: true,
+//   })
+// );
+
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://edu-nest1.netlify.app",
+  "https://elearning-frontend-p15b.vercel.app"
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend Vite URL
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.warn("Blocked by CORS:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
+
+
 
 import userRoutes from "./routes/user.js";
 import courseRoutes from "./routes/course.js";
