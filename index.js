@@ -33,6 +33,10 @@ import adminRoutes from "./routes/admin.js";
 app.use("/api", userRoutes);
 app.use("/api", courseRoutes);
 app.use("/api", adminRoutes);
+app.get("/", (req, res) => {
+  res.send("Elearning server is live 🚀");
+});
+
 app.listen(port, () => {
   console.log(`server is running on http://localhost:${port}`);
   connectDb();
